@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static christmas.domain.order.menu.Menu.*;
+import static christmas.domain.order.menu.MenuType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
@@ -16,8 +18,9 @@ class OrderMenuTest {
     @BeforeEach
     void setUp() {
         validOrderMenus = new HashMap<>();
-        validOrderMenus.put(Menu.MUSHROOM_SOUP, 1);
-        validOrderMenus.put(Menu.T_BONE_STEAK, 1);
+        validOrderMenus.put(MUSHROOM_SOUP, 1);
+        validOrderMenus.put(T_BONE_STEAK, 2);
+        validOrderMenus.put(ZERO_COLA, 3);
     }
 
     @Test
@@ -30,7 +33,8 @@ class OrderMenuTest {
     @DisplayName("전체 가격 계산")
     void totalPriceCalculation() {
         OrderMenu orderMenu = new OrderMenu(validOrderMenus);
-        int expectedTotalPrice = Menu.MUSHROOM_SOUP.getPrice() + Menu.T_BONE_STEAK.getPrice();
+        int expectedTotalPrice =
+                MUSHROOM_SOUP.getPrice() + (T_BONE_STEAK.getPrice() * 2) + (ZERO_COLA.getPrice() * 3);
         assertEquals(expectedTotalPrice, orderMenu.getTotalPrice());
     }
 
@@ -38,8 +42,9 @@ class OrderMenuTest {
     @DisplayName("특정 타입별 수량 계산")
     void orderQuantityByTypeCalculation() {
         OrderMenu orderMenu = new OrderMenu(validOrderMenus);
-        assertEquals(1, orderMenu.getOrderQuantityByType(MenuType.APPETIZER));
-        assertEquals(1, orderMenu.getOrderQuantityByType(MenuType.MAIN));
+        assertEquals(1, orderMenu.getOrderQuantityByType(APPETIZER));
+        assertEquals(2, orderMenu.getOrderQuantityByType(MAIN));
+        assertEquals(3, orderMenu.getOrderQuantityByType(DRINK));
     }
 
     @Test
@@ -54,8 +59,8 @@ class OrderMenuTest {
     @DisplayName("모든 메뉴가 음료인 주문 오류")
     void allDrinksOrderError() {
         Map<Menu, Integer> onlyDrinksOrderMenus = new HashMap<>();
-        onlyDrinksOrderMenus.put(Menu.RED_WINE, 2);
-        onlyDrinksOrderMenus.put(Menu.CHAMPAGNE, 1);
+        onlyDrinksOrderMenus.put(RED_WINE, 2);
+        onlyDrinksOrderMenus.put(CHAMPAGNE, 1);
 
         assertThrows(IllegalArgumentException.class, () -> new OrderMenu(onlyDrinksOrderMenus));
     }
@@ -64,8 +69,8 @@ class OrderMenuTest {
     @DisplayName("최소 수량 미만 주문 오류")
     void minimumQuantityOrderError() {
         Map<Menu, Integer> invalidQuantityOrderMenus = new HashMap<>();
-        invalidQuantityOrderMenus.put(Menu.MUSHROOM_SOUP, 0);
-        invalidQuantityOrderMenus.put(Menu.T_BONE_STEAK, 1);
+        invalidQuantityOrderMenus.put(MUSHROOM_SOUP, 0);
+        invalidQuantityOrderMenus.put(T_BONE_STEAK, 1);
 
         assertThrows(IllegalArgumentException.class, () -> new OrderMenu(invalidQuantityOrderMenus));
     }
@@ -74,10 +79,10 @@ class OrderMenuTest {
     @DisplayName("총 수량 초과 주문 오류")
     void totalQuantityExceedOrderError() {
         Map<Menu, Integer> exceedTotalQuantityOrderMenus = new HashMap<>();
-        exceedTotalQuantityOrderMenus.put(Menu.TAPAS, 5);
-        exceedTotalQuantityOrderMenus.put(Menu.T_BONE_STEAK, 5);
-        exceedTotalQuantityOrderMenus.put(Menu.ZERO_COLA, 10);
-        exceedTotalQuantityOrderMenus.put(Menu.CHAMPAGNE, 1);
+        exceedTotalQuantityOrderMenus.put(TAPAS, 5);
+        exceedTotalQuantityOrderMenus.put(T_BONE_STEAK, 5);
+        exceedTotalQuantityOrderMenus.put(ZERO_COLA, 10);
+        exceedTotalQuantityOrderMenus.put(CHAMPAGNE, 1);
 
         assertThrows(IllegalArgumentException.class, () -> new OrderMenu(exceedTotalQuantityOrderMenus));
     }
