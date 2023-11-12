@@ -2,6 +2,7 @@ package christmas.domain.order.menu;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +11,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 class OrderMenuFactoryTest {
 
     @Test
-    void 유효한_입력() {
+    @DisplayName("유효한 입력")
+    void validInput() {
         String input = "양송이수프-1,티본스테이크-1";
         Map<Menu, Integer> orderMenus = OrderMenuFactory.create(input);
 
@@ -21,19 +23,22 @@ class OrderMenuFactoryTest {
     }
 
     @Test
-    void 잘못된_메뉴_입력() {
+    @DisplayName("잘못된 메뉴 입력")
+    void invalidMenuInput() {
         String invalidInput = "잘못된메뉴-1,양송이수프-2";
         assertThrows(IllegalArgumentException.class, () -> OrderMenuFactory.create(invalidInput));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "----", "양송이수프-둘"})
-    void 잘못된_형식의_입력(String input) {
+    @DisplayName("잘못된 형식 입력")
+    void invalidForm(String input) {
         assertThrows(IllegalArgumentException.class, () -> OrderMenuFactory.create(input));
     }
 
     @Test
-    void 중복_메뉴_입력() {
+    @DisplayName("중복된 메뉴 입력")
+    void menuDuplicated() {
         String duplicateInput = "양송이수프-1,양송이수프-2";
         assertThrows(IllegalArgumentException.class, () -> OrderMenuFactory.create(duplicateInput));
     }

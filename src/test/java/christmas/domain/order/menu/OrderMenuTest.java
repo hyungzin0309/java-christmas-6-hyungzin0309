@@ -22,13 +22,13 @@ class OrderMenuTest {
 
     @Test
     @DisplayName("유효한 주문 생성")
-    void testValidOrderCreation() {
+    void validOrderCreation() {
         assertDoesNotThrow(() -> new OrderMenu(validOrderMenus));
     }
 
     @Test
     @DisplayName("전체 가격 계산")
-    void testTotalPriceCalculation() {
+    void totalPriceCalculation() {
         OrderMenu orderMenu = new OrderMenu(validOrderMenus);
         int expectedTotalPrice = Menu.MUSHROOM_SOUP.getPrice() + Menu.T_BONE_STEAK.getPrice();
         assertEquals(expectedTotalPrice, orderMenu.getTotalPrice());
@@ -36,7 +36,7 @@ class OrderMenuTest {
 
     @Test
     @DisplayName("특정 타입별 수량 계산")
-    void testOrderQuantityByTypeCalculation() {
+    void orderQuantityByTypeCalculation() {
         OrderMenu orderMenu = new OrderMenu(validOrderMenus);
         assertEquals(1, orderMenu.getOrderQuantityByType(MenuType.APPETIZER));
         assertEquals(1, orderMenu.getOrderQuantityByType(MenuType.MAIN));
@@ -44,7 +44,7 @@ class OrderMenuTest {
 
     @Test
     @DisplayName("빈 주문 오류")
-    void testEmptyOrderError() {
+    void emptyOrderError() {
         Map<Menu, Integer> emptyOrderMenus = new HashMap<>();
 
         assertThrows(IllegalArgumentException.class, () -> new OrderMenu(emptyOrderMenus));
@@ -52,7 +52,7 @@ class OrderMenuTest {
 
     @Test
     @DisplayName("모든 메뉴가 음료인 주문 오류")
-    void testAllDrinksOrderError() {
+    void allDrinksOrderError() {
         Map<Menu, Integer> onlyDrinksOrderMenus = new HashMap<>();
         onlyDrinksOrderMenus.put(Menu.RED_WINE, 2);
         onlyDrinksOrderMenus.put(Menu.CHAMPAGNE, 1);
@@ -62,7 +62,7 @@ class OrderMenuTest {
 
     @Test
     @DisplayName("최소 수량 미만 주문 오류")
-    void testMinimumQuantityOrderError() {
+    void minimumQuantityOrderError() {
         Map<Menu, Integer> invalidQuantityOrderMenus = new HashMap<>();
         invalidQuantityOrderMenus.put(Menu.MUSHROOM_SOUP, 0);
         invalidQuantityOrderMenus.put(Menu.T_BONE_STEAK, 1);
@@ -72,7 +72,7 @@ class OrderMenuTest {
 
     @Test
     @DisplayName("총 수량 초과 주문 오류")
-    void testTotalQuantityExceedOrderError() {
+    void totalQuantityExceedOrderError() {
         Map<Menu, Integer> exceedTotalQuantityOrderMenus = new HashMap<>();
         exceedTotalQuantityOrderMenus.put(Menu.TAPAS, 5);
         exceedTotalQuantityOrderMenus.put(Menu.T_BONE_STEAK, 5);
