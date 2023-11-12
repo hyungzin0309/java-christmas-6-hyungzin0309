@@ -2,10 +2,15 @@ package christmas.view;
 
 import static camp.nextstep.edu.missionutils.Console.*;
 import static christmas.message.ErrorMessage.INVALID_DAY_INPUT;
+import static christmas.message.ErrorMessage.INVALID_MENU_INPUT;
 
+import christmas.domain.order.menu.Menu;
+import christmas.domain.order.menu.OrderMenu;
+import christmas.domain.order.menu.OrderMenuFactory;
 import christmas.domain.order.VisitDay;
 import christmas.message.Message;
 import christmas.utils.ConvertUtils;
+import java.util.Map;
 
 public class InputView {
 
@@ -17,6 +22,18 @@ public class InputView {
                 return new VisitDay(day);
             } catch (IllegalArgumentException e) {
                 System.out.println(INVALID_DAY_INPUT);
+            }
+        }
+    }
+
+    public static OrderMenu readOrderMenu() {
+        System.out.println(Message.INPUT_MENU);
+        while (true) {
+            try {
+                Map<Menu, Integer> menuOrders = OrderMenuFactory.create(readLine());
+                return new OrderMenu(menuOrders);
+            } catch (IllegalArgumentException e) {
+                System.out.println(INVALID_MENU_INPUT);
             }
         }
     }
