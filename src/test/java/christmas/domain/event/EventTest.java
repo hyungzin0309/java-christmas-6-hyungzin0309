@@ -36,6 +36,7 @@ class EventTest {
         assertFalse(testEvent.isApplicableFor(order));
     }
 
+    // 이벤트 최소 적용 금액 테스트를 위한 테스트용 Event 구현체
     class TestEvent extends Event {
 
         @Override
