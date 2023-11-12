@@ -9,14 +9,14 @@ import java.time.temporal.ChronoUnit;
 
 public class VisitDay {
 
-    private static final int YEAR = 2023;
-    private static final int MONTH = 12;
+    private static final int VISIT_YEAR = 2023;
+    private static final int VISIT_MONTH = 12;
 
     private final LocalDate visitDay;
 
     public VisitDay(int day) {
         try {
-            visitDay = LocalDate.of(YEAR, MONTH, day);
+            visitDay = LocalDate.of(VISIT_YEAR, VISIT_MONTH, day);
         } catch (DateTimeException e) {
             throw new IllegalArgumentException(INVALID_DAY_INPUT);
         }
