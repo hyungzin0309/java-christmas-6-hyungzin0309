@@ -6,7 +6,7 @@ import static christmas.message.ErrorMessage.INVALID_MENU_INPUT;
 
 import christmas.domain.order.menu.Menu;
 import christmas.domain.order.menu.OrderMenu;
-import christmas.domain.order.menu.OrderMenuFactory;
+import christmas.domain.order.menu.MenuOrdersConverter;
 import christmas.domain.order.VisitDay;
 import christmas.message.Message;
 import christmas.utils.ConvertUtils;
@@ -30,7 +30,7 @@ public class InputView {
         System.out.println(Message.INPUT_MENU);
         while (true) {
             try {
-                Map<Menu, Integer> menuOrders = OrderMenuFactory.create(readLine());
+                Map<Menu, Integer> menuOrders = MenuOrdersConverter.convertToMenuOrders(readLine());
                 return new OrderMenu(menuOrders);
             } catch (IllegalArgumentException e) {
                 System.out.println(INVALID_MENU_INPUT);

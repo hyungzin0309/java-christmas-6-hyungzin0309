@@ -7,20 +7,20 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class OrderMenuFactory {
+public class MenuOrdersConverter {
 
     private static final String ORDER_DELIMITER = ",";
     private static final String MENU_AMOUNT_DELIMITER = "-";
 
-    public static Map<Menu, Integer> create(String menuInput) {
+    public static Map<Menu, Integer> convertToMenuOrders(String menuInput) {
         try {
-            return convertToOrderMenus(menuInput);
+            return _convertToMenuOrders(menuInput);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new IllegalArgumentException(INVALID_MENU_INPUT);
         }
     }
 
-    private static Map<Menu, Integer> convertToOrderMenus(String menuInput) {
+    private static Map<Menu, Integer> _convertToMenuOrders(String menuInput) {
         return Arrays.stream(menuInput.split(ORDER_DELIMITER))
                 .map(menus -> menus.split(MENU_AMOUNT_DELIMITER))
                 .collect(Collectors.toMap(
