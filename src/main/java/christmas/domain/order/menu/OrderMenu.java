@@ -38,13 +38,10 @@ public class OrderMenu {
     }
 
     public int getTotalPrice() {
-        int totalAmount = 0;
-        for (Menu menu : orderMenus.keySet()) {
-            int price = menu.getPrice();
-            int orderNum = orderMenus.get(menu);
-            totalAmount += price * orderNum;
-        }
-        return totalAmount;
+        return orderMenus.entrySet()
+                .stream()
+                .mapToInt(entry -> entry.getKey().getPrice() * entry.getValue())
+                .sum();
     }
 
     public int getOrderQuantityByType(MenuType type) {
