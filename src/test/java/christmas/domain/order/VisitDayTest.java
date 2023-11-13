@@ -39,18 +39,22 @@ class VisitDayTest {
         assertEquals(DayOfWeek.MONDAY, monday.getDayOfWeek());
     }
 
-    @Test
-    @DisplayName("주말인지 아닌지 요일별 확인")
-    void weekendCheckTest() {
-        VisitDay friday = new VisitDay(22); // 금요일
-        VisitDay saturday = new VisitDay(23); // 토요일
-        VisitDay sunday = new VisitDay(24); // 일요일
-        VisitDay monday = new VisitDay(25); // 월요일
+    @ParameterizedTest
+    @ValueSource(strings = {"8", "16", "29"})
+    @DisplayName("금요일과 토요일은 주말이다.")
+    void weekendCheckTest(int day) {
+        VisitDay fridayOrSaturday = new VisitDay(day);
 
-        assertTrue(friday.isWeekend());
-        assertTrue(saturday.isWeekend());
-        assertFalse(sunday.isWeekend());
-        assertFalse(monday.isWeekend());
+        assertTrue(fridayOrSaturday.isWeekend());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"3", "11", "31"})
+    @DisplayName("금요일과 토요일을 제외한 모든 요일들은 평일이다.")
+    void weekdayCheckTest(int day) {
+        VisitDay weekday = new VisitDay(day);
+
+        assertFalse(weekday.isWeekend());
     }
 
     @Test
